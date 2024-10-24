@@ -1,28 +1,22 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import Card from '@mui/material/Card';
-import { CardContent } from '@mui/material';
-import CardMedia from '@mui/material';
-import Typography from '@mui/material';
-import useStore from '../useStore';
+import {Grid2} from '@mui/material';
+import {useStore} from '../useStore';
+import BookCard from './BookCard';
 
-const BooksList = () => {
-    const {books, setBooks} = useStore();
-    const getAllBooks = async () => {
-        try {
-            const response = await axios.get('/get-all-books');
-            setBooks(response);
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    useEffect(() => {
-        getAllBooks();
-    }, []);
+const BooksList = ({books}) => {
+    // const {books} = useStore();
 
     return (
-        
+        <Grid2 container spacing={2} margin={'30px'}>
+            {books.map((book) => (
+                <BookCard
+                    key={book.id}
+                    title={book?.volumeInfo?.title ? book.volumeInfo.title : book?.title}
+                    author={book?.volumeInfo?.authors ? book.volumeInfo.authors.join(', ') : book?.author}
+                    year={book?.volumeInfo?.publishedDate || book?.year}
+                    poster={book?.volumeInfo?.imageLinks?.smallThumbnail || book?.poster || '/images/no_poster.jpg'}
+                />
+            ))}
+        </Grid2>
     );
 }
 

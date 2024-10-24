@@ -1,8 +1,10 @@
-import create from 'zustand';
+import { create } from 'zustand';
 
-const useStore = create((set) => ({
-    books: [],
-    setBooks: (books) => set({books: books}),
+export const useStore = create((set) => ({
+    libraryBooks: [],
+    findBooks: [],
+    searchBook: '',
+    setLibraryBooks: (books) => set({libraryBooks: books}),
+    setFindBooks: (books) => set({findBooks: books}),
+    setSearchBook: (book) => set({searchBook: book}),
 }));
-
-export default useStore;
