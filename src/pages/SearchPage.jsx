@@ -12,7 +12,7 @@ const SearchPage = () => {
         <>
             <MyAppBar/>
             <Typography gutterBottom variant="h5" component="div" margin={'30px'}>Поиск "{book}"</Typography>
-            <BooksList books={findBooks}/>
+            <BooksList books={findBooks} type={'search'}/>
         </>
     )
 }

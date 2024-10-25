@@ -1,23 +1,30 @@
-import {Grid2} from '@mui/material';
-import {useStore} from '../useStore';
-import BookCard from './BookCard';
+import { Grid } from '@mui/material';
+import { useStore } from '../useStore';
+import GoogleBookCard from './GoogleBookCard';
+import LibraryBookCard from './LibraryBookCard';
+import { mapGoogleBookToDBBook } from '../helpers/book';
 
-const BooksList = ({books}) => {
-    // const {books} = useStore();
-
+const BooksList = ({ books, type, borrowedBookIds }) => {
     return (
-        <Grid2 container spacing={2} margin={'30px'}>
-            {books.map((book) => (
-                <BookCard
-                    key={book.id}
-                    title={book?.volumeInfo?.title ? book.volumeInfo.title : book?.title}
-                    author={book?.volumeInfo?.authors ? book.volumeInfo.authors.join(', ') : book?.author}
-                    year={book?.volumeInfo?.publishedDate || book?.year}
-                    poster={book?.volumeInfo?.imageLinks?.smallThumbnail || book?.poster || '/images/no_poster.jpg'}
-                />
-            ))}
-        </Grid2>
+        <Grid container spacing={2} margin={'30px'}>
+        {type === 'search' ? (
+            books.map((book) => (
+            <GoogleBookCard
+                key={book.id}
+                book={mapGoogleBookToDBBook(book)}
+            />
+            ))
+        ) : (
+            books.map((book) => (
+            <LibraryBookCard
+                key={book.id}
+                book={book}
+                isBorrowed={borrowedBookIds.has(book.id)}
+            />
+            ))
+        )}
+        </Grid>
     );
-}
+};
 
 export default BooksList;
